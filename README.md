@@ -25,13 +25,22 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [x] **Game purpose:** A number guessing game where the player tries to guess a hidden number within a limited number of attempts. The difficulty setting controls the number range (Easy: 1–20, Normal: 1–100, Hard: 1–50) and the number of allowed attempts. After each guess the game gives a directional hint and tracks a running score.
+
+- [x] **Bugs found:**
+  1. **Secret number kept changing** — `random.randint()` was called at the top level of the script, so Streamlit regenerated a new secret on every rerun (every button click), making it impossible to win.
+  2. **Hints were backwards** — `"Too High"` displayed "Go HIGHER!" and `"Too Low"` displayed "Go LOWER!", the opposite of what they should say.
+  3. **Attempt counter was off by one** — the attempts display rendered before the increment ran, so it always showed one attempt behind.
+
+- [x] **Fixes applied:**
+  1. Wrapped the secret assignment in `if "secret" not in st.session_state:` so it only generates once per game.
+  2. Swapped the hint messages so `"Too High"` → "Go LOWER!" and `"Too Low"` → "Go HIGHER!".
+  3. Moved `st.session_state.attempts += 1` to before the `st.info` display so the count updates immediately on submit.
+  4. Refactored `get_range_for_difficulty`, `parse_guess`, and `update_score` from `app.py` into `logic_utils.py`.
 
 ## 📸 Demo
 
-- [ ] [Insert a screenshot of your fixed, winning game here]
+- [x] ![Winning game screenshot](Screenshot%202026-03-11%20at%2012.49.51%20PM.png)
 
 ## 🚀 Stretch Features
 
